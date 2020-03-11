@@ -122,6 +122,13 @@ public class Controller {
 				}
 				break;
 			case 4: 
+				Long [] tiempos = modelo.cargar200kNumerosAleatorios();
+				view.printMessage("Tiempo de insertar 200k datos aleatorios en el max Cola: " + tiempos[1] + " milisegundos");
+				view.printMessage("Tiempo de insertar 200k datos aleatorios en el max Heap: " + tiempos[0] + " milisegundos");
+				view.printMessage("Tiempo de vaciar 200k datos aleatorios en el max Cola: " + tiempos[3] + " milisegundos");
+				view.printMessage("Tiempo de vaciar 200k datos aleatorios en el max Heap: " + tiempos[2] + " milisegundos");
+				break;	
+			case 5: 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;
