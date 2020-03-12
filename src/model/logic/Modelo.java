@@ -39,7 +39,9 @@ public class Modelo
 
 	private MaxHeapCP<Comparendo> req2MaxHeapCP;
 
+	private MaxColaCP<Comparendo> sacarMaxColaCP;
 
+	private MaxHeapCP<Comparendo> sacarMaxHeapCP;
 
 	/**
 	 * Constante con la ruta
@@ -63,6 +65,8 @@ public class Modelo
 		maxColaCP = new MaxColaCP<Comparendo>(Comparendo.Comparadores.darComparadorLatitud());
 		req2MaxHeapCP = null;
 		req1MaxColaCP =null;
+		sacarMaxColaCP = null;
+		sacarMaxHeapCP = null;
 	}
 
 	/**
@@ -220,6 +224,71 @@ public class Modelo
 
 
 
+	public MaxColaCP<Comparendo> sacarMaxCola (int pTamaño) throws Exception
+	{
+
+		if(sacarMaxColaCP==null || ( sacarMaxColaCP != null && sacarMaxColaCP.darNumElementos() != pTamaño ))
+		{
+
+			sacarMaxColaCP = new MaxColaCP<Comparendo>(pTamaño, Comparendo.Comparadores.darComparadorLatitud());
+
+			if (pTamaño > maxColaCP.darNumElementos())
+				throw new Exception ("No se pueden dar los " + pTamaño + " elementos porque solo hay " + maxColaCP.darNumElementos()+ " elementos");
+
+			int i = pTamaño;
+
+			while (!maxColaCP.esVacia() && i >0)
+			{
+				Comparendo comparendo = maxColaCP.sacarMax();
+				sacarMaxColaCP.agregar(comparendo);
+				i--;
+			}	
+			return sacarMaxColaCP;
+		}
+		
+		if(maxColaCP.darNumElementos()==0)
+		{
+			throw new Exception ("No se pueden dar los " + pTamaño + " elementos porque solo hay " + maxColaCP.darNumElementos()+ " elementos");
+		}
+		
+		return sacarMaxColaCP;	
+
+	}
+
+
+
+	public MaxHeapCP<Comparendo> sacarMaxHeap (int pTamaño) throws Exception
+	{
+
+		if(sacarMaxHeapCP==null || ( sacarMaxHeapCP != null && sacarMaxHeapCP.darNumElementos() != pTamaño ))
+		{
+
+			sacarMaxHeapCP = new MaxHeapCP<Comparendo>(pTamaño, Comparendo.Comparadores.darComparadorLatitud());
+
+			if (pTamaño > maxHeapCP.darNumElementos())
+				throw new Exception ("No se pueden dar los " + pTamaño + " elementos porque solo hay " + maxHeapCP.darNumElementos()+ " elementos");
+
+			int i = pTamaño;
+
+			while (!maxHeapCP.esVacia() && i >0)
+			{
+				Comparendo comparendo = maxHeapCP.sacarMax();
+				sacarMaxHeapCP.agregar(comparendo);
+				i--;
+			}	
+			return sacarMaxHeapCP;	
+		}
+		
+		if(maxHeapCP.darNumElementos()==0)
+		{
+			throw new Exception ("No se pueden dar los " + pTamaño + " elementos porque solo hay " + maxHeapCP.darNumElementos()+ " elementos");
+		}
+		return sacarMaxHeapCP;	
+
+	}
+
+
+
 	//Cargar los datos en la cola de prioridad
 	/**
 	 * Carga los datos de la lista a la cola de prioridad
@@ -242,10 +311,10 @@ public class Modelo
 		//Ahora se inserta en el MaxHeapCP
 
 		Long []arreglo = new Long[2]; //En la posicion 1 va a estar la duraccion del max heap
-		
+
 		//Voy a copiar todos los comparendos de la lista en un arreglo 
 		Comparendo[] comparendos = new Comparendo[datos.size()];
-		
+
 		Nodo<Comparendo> actual = datos.darPrimero();
 		int k = 0;
 		while (actual != null && k < comparendos.length)
@@ -254,7 +323,7 @@ public class Modelo
 			actual = actual.darSiguiente();
 			k++;
 		}
-		
+
 		if (N <= datos.size())
 		{
 			Integer[] muestraRandom = muestraAleatoria(N, datos.size() -1);
@@ -304,8 +373,8 @@ public class Modelo
 		{
 			lista[i] = i;
 		}
-		
-		
+
+
 		for (int i = 0; i < lista.length; i++) 
 		{
 			int randomIndexToSwap = rand.nextInt(lista.length);
@@ -313,7 +382,7 @@ public class Modelo
 			lista[randomIndexToSwap] = lista[i];
 			lista[i] = temp;
 		}
-		
+
 		Integer[] array = new Integer[N];
 		for (int i = 0; i < N; i++)
 		{
@@ -515,51 +584,51 @@ public class Modelo
 
 
 		Long []arreglo = new Long[4]; //En la posicion 1 va a estar la duraccion del max heap
-		
+
 		//Creo ambas estructuras
 		MaxColaCP<Integer> maxCola = new MaxColaCP<>();
 		MaxHeapCP<Integer> maxHeap = new MaxHeapCP<>();
-		
+
 		Integer [] array = new Integer[200000];
-		
-		
-		
+
+
+
 		for (int i = 0; i < array.length; i++)
 		{
 			int numero = (int)(Math.random()*((300000)+1));
 			array[i] = numero;
-			
+
 		}
-		
-		
+
+
 		long startTimeHeap = System.currentTimeMillis();
 		for (int i = 0; i < array.length; i++)
 		{
 			maxHeap.agregar(array[i]);
-			
+
 		}
 		long endTimeHeap = System.currentTimeMillis();
 		long durationHeap = endTimeHeap - startTimeHeap;
 		arreglo[0] = durationHeap;
-		
-		
-		
+
+
+
 		long startTimeCola = System.currentTimeMillis();
 		for (int i = 0; i < array.length; i++)
 		{
 			maxCola.agregar(array[i]);
-			
+
 		}
 		long endTimeCola = System.currentTimeMillis();
 		long durationCola = endTimeCola - startTimeCola;
 		arreglo[1] = durationCola;
-		
-		
+
+
 		//En la posicion 0 es el tiempo que demora en meter todo en el heap
 		//pos 1 el tiempo que demora en meter todo en la cola
 		//pos 2 el tiempo que demora sacar todo del heap
 		//pos 3 tiempo que demora sacar todo de la cola
-		
+
 		long startSacar = System.currentTimeMillis();
 		while(!maxHeap.esVacia())
 		{
@@ -573,8 +642,8 @@ public class Modelo
 		long endSacar = System.currentTimeMillis();
 		long duracionSacar = endSacar - startSacar;
 		arreglo[2] = duracionSacar;
-		
-		
+
+
 		long startSacar1 = System.currentTimeMillis();
 		while(!maxCola.esVacia())
 		{
@@ -588,11 +657,11 @@ public class Modelo
 		long endSacar1 = System.currentTimeMillis();
 		long duracionSacar1 = endSacar1 - startSacar1;
 		arreglo[3] = duracionSacar1;
-		
+
 		return arreglo;
 	}
 
-	
+
 
 
 

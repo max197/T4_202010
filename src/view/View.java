@@ -21,8 +21,9 @@ public class View
 			System.out.println("1. Cargar los datos en el MaxColaCP y MaxHeapCP");
 			System.out.println("2. Requerimiento Funcional 1");
 			System.out.println("3. Requerimiento Funcional 2");
-			System.out.println("4. Conteo de 200k datos");
-			System.out.println("5. Exit");
+			System.out.println("4. sacarMaxHeap");
+			System.out.println("5. sacarMaxCola");
+			System.out.println("6. Exit");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g., 1):");
 		}
 

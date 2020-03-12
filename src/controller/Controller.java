@@ -59,7 +59,6 @@ public class Controller {
 				}
 				break;
 			case 2:
-				// TODO adaptarlo porque el 2 es el de MaxColaCP MAX
 				try
 				{
 					view.printMessage("--------- Inserte N (Numero de comparendos que quiere ver): ");
@@ -113,6 +112,31 @@ public class Controller {
 				
 					}
 
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+					view.printMessage(e.getMessage());
+				}
+				break;
+				
+			case 4:
+				view.printMessage("--------- Inserte N (Numero de comparendos que quiere sacar): ");
+				try
+				{
+					N = lector.nextInt();
+					try
+					{
+						long startTimeHeap1 = System.currentTimeMillis();
+						modelo.sacarMaxHeap(N);
+						long endTimeHeap1 = System.currentTimeMillis();
+						long durationHeap1 = endTimeHeap1 - startTimeHeap1;
+						view.printMessage("\nTiempo de ejecucion: " + durationHeap1 + " milisegundos\n");						
+					}
+					catch (Exception e)
+					{
+						view.printMessage(e.getMessage()+"\n");
+					}
 
 				}
 				catch(Exception e)
@@ -121,14 +145,34 @@ public class Controller {
 					view.printMessage(e.getMessage());
 				}
 				break;
-			case 4: 
-				Long [] tiempos = modelo.cargar200kNumerosAleatorios();
-				view.printMessage("Tiempo de insertar 200k datos aleatorios en el max Cola: " + tiempos[1] + " milisegundos");
-				view.printMessage("Tiempo de insertar 200k datos aleatorios en el max Heap: " + tiempos[0] + " milisegundos");
-				view.printMessage("Tiempo de vaciar 200k datos aleatorios en el max Cola: " + tiempos[3] + " milisegundos");
-				view.printMessage("Tiempo de vaciar 200k datos aleatorios en el max Heap: " + tiempos[2] + " milisegundos");
-				break;	
-			case 5: 
+				
+			case 5:
+				view.printMessage("--------- Inserte N (Numero de comparendos que quiere sacar): ");
+				try
+				{
+					N = lector.nextInt();
+					try
+					{
+						long startTimeHeap2 = System.currentTimeMillis();
+						modelo.sacarMaxCola(N);
+						long endTimeHeap2 = System.currentTimeMillis();
+						long durationHeap2 = endTimeHeap2 - startTimeHeap2;
+						view.printMessage("\nTiempo de ejecucion: " + durationHeap2 + " milisegundos\n");						
+					}
+					catch (Exception e)
+					{
+						view.printMessage(e.getMessage());
+					}
+
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+					view.printMessage(e.getMessage());
+				}
+				break;
+				
+			case 6: 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;
